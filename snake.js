@@ -1,6 +1,11 @@
+// TODO:
+//  - check snake body collision
+//  - can't move in opposite dir: doing up, can't go down
+//    (only left or right)
 var canvas = document.getElementById("board");
 var context = canvas.getContext("2d");
-context.scale(20, 20);
+var scaleFactor = 20;
+context.scale(scaleFactor, scaleFactor);
 
 var keyPressed = false;
 
@@ -61,20 +66,78 @@ function draw() {
   });
 }
 
+function tryLeftOrRight() {
+  console.log('tryLeftOrRight');
+  let head = snake.body[0];
+  head.x -= 1; // try left
+  if (collided()) {
+    console.log('left collided');
+    head.x += 1; // come back to original pos
+    head.x += 1; // try right
+    if (collided()) {
+      console.log('right collided');
+      head.x -= 1; // come back to original pos
+    } else {
+      // no collision, going right now
+      head.dir = Dir.Right;
+    }
+  } else {
+    // no collision, so going left now
+    head.dir = Dir.Left;
+  }
+}
+
+function tryUpOrDown() {
+  console.log('tryUpOrDown');
+  let head = snake.body[0];
+  head.y -= 1; // try up
+  if (collided()) {
+    head.y += 1; // come back to original pos
+    head.y += 1; // try down
+    if (collided()) {
+      head.y -= 1; // come back to original pos
+    } else {
+      // no collision, so going left now
+      head.dir = Dir.Down;
+    }
+  } else {
+    // no collision, so going left now
+    head.dir = Dir.Up;
+  }
+}
+
 function moveHead() {
   let head = snake.body[0];
   switch (head.dir) {
   case Dir.Up:
     head.y -= 1;
+    if (collided()) {
+      head.y += 1; // come back to original pos
+      tryLeftOrRight();
+    }
     break;
   case Dir.Down:
     head.y += 1;
+    if (collided()) {
+      console.log('before back to orig', snake.body[0]);
+      head.y -= 1; // come back to original pos
+      console.log('after back to orig', snake.body[0]);
+      tryLeftOrRight();
+    }
     break;
   case Dir.Left:
     head.x -= 1;
+    if (collided()) {
+      head.x += 1; // come back to original pos
+      tryUpOrDown();
+    }
     break;
   case Dir.Right:
     head.x += 1;
+    if (collided()) {
+      head.x -= 1; // come back to original pos
+      tryUpOrDown();
+    }
     break;
   default:
     break;
@@ -90,24 +153,28 @@ const Keys = {
 };
 
 document.addEventListener('keydown', (event) => {
-  keyPressed = true;
+
 
   let head = snake.body[0];
   switch (event.keyCode) {
   case Keys.Right:
+    keyPressed = true;
     head.dir = Dir.Right;
     break;
   case Keys.Left:
+    keyPressed = true;
     head.dir = Dir.Left;
     break;
   case Keys.Up:
+    keyPressed = true;
     head.dir = Dir.Up;
     break;
   case Keys.Down:
+    keyPressed = true;
     head.dir = Dir.Down;
     break;
   case Keys.Space:
-    keyPressed = false;
+    keyPressed = !keyPressed;
     break;
   default:
     break;
@@ -123,13 +190,34 @@ function update(time = 0) {
   counter += delta;
   if (counter > 100) {
     if (keyPressed) {
-      moveHead()
+      moveHead();
+      console.log('after moveHead: head => ', snake.body[0])
       draw();
     }
     counter = 0;
   }
 
   requestAnimationFrame(update);
+}
+
+function collided() {
+  let head = snake.body[0];
+  if (head.x < 0 || head.x >= (canvas.width / scaleFactor)) {
+    console.log('collided -1');
+    return true;
+  }
+  if (head.y < 0 || head.y >= (canvas.height / scaleFactor)) {
+    console.log('collided -2');
+    return true;
+  }
+  // for (let i = 1; i < snake.body.length; i++) {
+  //   let elt = snake.body[i];
+  //   if (elt.x === head.x && elt.y == head.y) {
+  //     console.log('collided ' + i);
+  //     return true;
+  //   }
+  // }
+  return false;
 }
 
 draw();
