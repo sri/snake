@@ -67,15 +67,12 @@ function draw() {
 }
 
 function tryLeftOrRight() {
-  console.log('tryLeftOrRight');
   let head = snake.body[0];
   head.x -= 1; // try left
   if (collided()) {
-    console.log('left collided');
     head.x += 1; // come back to original pos
     head.x += 1; // try right
     if (collided()) {
-      console.log('right collided');
       head.x -= 1; // come back to original pos
     } else {
       // no collision, going right now
@@ -88,7 +85,6 @@ function tryLeftOrRight() {
 }
 
 function tryUpOrDown() {
-  console.log('tryUpOrDown');
   let head = snake.body[0];
   head.y -= 1; // try up
   if (collided()) {
@@ -119,9 +115,7 @@ function moveHead() {
   case Dir.Down:
     head.y += 1;
     if (collided()) {
-      console.log('before back to orig', snake.body[0]);
       head.y -= 1; // come back to original pos
-      console.log('after back to orig', snake.body[0]);
       tryLeftOrRight();
     }
     break;
@@ -191,7 +185,6 @@ function update(time = 0) {
   if (counter > 100) {
     if (keyPressed) {
       moveHead();
-      console.log('after moveHead: head => ', snake.body[0])
       draw();
     }
     counter = 0;
@@ -203,17 +196,14 @@ function update(time = 0) {
 function collided() {
   let head = snake.body[0];
   if (head.x < 0 || head.x >= (canvas.width / scaleFactor)) {
-    console.log('collided -1');
     return true;
   }
   if (head.y < 0 || head.y >= (canvas.height / scaleFactor)) {
-    console.log('collided -2');
     return true;
   }
   // for (let i = 1; i < snake.body.length; i++) {
   //   let elt = snake.body[i];
   //   if (elt.x === head.x && elt.y == head.y) {
-  //     console.log('collided ' + i);
   //     return true;
   //   }
   // }
@@ -223,4 +213,3 @@ function collided() {
 draw();
 update();
 setInterval(snakeLonger, 1000);
-
