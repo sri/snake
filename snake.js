@@ -201,12 +201,12 @@ function collided() {
   if (head.y < 0 || head.y >= (canvas.height / scaleFactor)) {
     return true;
   }
-  // for (let i = 1; i < snake.body.length; i++) {
-  //   let elt = snake.body[i];
-  //   if (elt.x === head.x && elt.y == head.y) {
-  //     return true;
-  //   }
-  // }
+  for (let i = 1; i < snake.body.length; i++) {
+    let elt = snake.body[i];
+    if (elt.x === head.x && elt.y == head.y) {
+      return true;
+    }
+  }
   return false;
 }
 
