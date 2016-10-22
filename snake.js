@@ -7,6 +7,9 @@ var context = canvas.getContext("2d");
 var scaleFactor = 20;
 context.scale(scaleFactor, scaleFactor);
 
+var pointsElt = null;
+var points = 0;
+
 var keyPressed = false;
 
 var Dir = {
@@ -30,6 +33,8 @@ function snakeLonger() {
   let last = snake.body[snake.body.length - 1];
   let extra = {x: last.x, y: last.y, dir: last.dir};
 
+  console.log('last', JSON.stringify(last));
+
   switch (last.dir) {
   case Dir.Up:
     extra.y += 1;
@@ -46,19 +51,43 @@ function snakeLonger() {
   default:
     break;
   }
-
+  console.log('extra', JSON.stringify(extra));
+  firsttime = true;
   snake.body.push(extra);
 }
+
+function randRange(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+var food = null;
+
+function placeFood() {
+  if (food === null) {
+    let w = canvas.width / scaleFactor;
+    let h = canvas.height / scaleFactor;
+
+    food = {
+      x: randRange(0, w),
+      y: randRange(0, h),
+    };
+  }
+}
+
+let firsttime = true;
 
 function draw() {
   context.fillStyle = "#000";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (let i = snake.body.length - 1; i > 0; i--) {
-    snake.body[i].x = snake.body[i - 1].x;
-    snake.body[i].y = snake.body[i - 1].y;
-    snake.body[i].dir = snake.body[i - 1].dir;
+  if (firsttime) {
+    console.log('snake.body.len', snake.body.length);
+    firsttime = false;
   }
+
+  placeFood();
+  context.fillStyle = 'green';
+  context.fillRect(food.x, food.y, 1, 1);
 
   context.fillStyle = 'red';
   snake.body.forEach((elt, idx) => {
@@ -66,75 +95,45 @@ function draw() {
   });
 }
 
-function tryLeftOrRight() {
-  let head = snake.body[0];
-  head.x -= 1; // try left
-  if (collided()) {
-    head.x += 1; // come back to original pos
-    head.x += 1; // try right
-    if (collided()) {
-      head.x -= 1; // come back to original pos
-    } else {
-      // no collision, going right now
-      head.dir = Dir.Right;
-    }
-  } else {
-    // no collision, so going left now
-    head.dir = Dir.Left;
-  }
-}
-
-function tryUpOrDown() {
-  let head = snake.body[0];
-  head.y -= 1; // try up
-  if (collided()) {
-    head.y += 1; // come back to original pos
-    head.y += 1; // try down
-    if (collided()) {
-      head.y -= 1; // come back to original pos
-    } else {
-      // no collision, so going left now
-      head.dir = Dir.Down;
-    }
-  } else {
-    // no collision, so going left now
-    head.dir = Dir.Up;
-  }
-}
-
 function moveHead() {
   let head = snake.body[0];
+
+  for (let i = snake.body.length - 1; i > 0; i--) {
+    snake.body[i].x = snake.body[i - 1].x;
+    snake.body[i].y = snake.body[i - 1].y;
+    snake.body[i].dir = snake.body[i - 1].dir;
+  }
+
   switch (head.dir) {
   case Dir.Up:
     head.y -= 1;
-    if (collided()) {
-      head.y += 1; // come back to original pos
-      tryLeftOrRight();
-    }
     break;
   case Dir.Down:
     head.y += 1;
-    if (collided()) {
-      head.y -= 1; // come back to original pos
-      tryLeftOrRight();
-    }
     break;
   case Dir.Left:
     head.x -= 1;
-    if (collided()) {
-      head.x += 1; // come back to original pos
-      tryUpOrDown();
-    }
     break;
   case Dir.Right:
     head.x += 1;
-    if (collided()) {
-      head.x -= 1; // come back to original pos
-      tryUpOrDown();
-    }
     break;
   default:
     break;
+  }
+
+  console.log(JSON.stringify(snake.body));
+
+  if (gotFood()) {
+    food = null;
+    points += 100;
+    if (!pointsElt) {
+      pointsElt = document.getElementById("points");
+    }
+    pointsElt.innerHTML = points + "";
+    snakeLonger();
+  } else if (collided()) {
+    keyPressed = false;
+    alert('game over');
   }
 }
 
@@ -147,8 +146,6 @@ const Keys = {
 };
 
 document.addEventListener('keydown', (event) => {
-
-
   let head = snake.body[0];
   switch (event.keyCode) {
   case Keys.Right:
@@ -193,6 +190,14 @@ function update(time = 0) {
   requestAnimationFrame(update);
 }
 
+function gotFood() {
+  let head = snake.body[0];
+  return (
+    food &&
+    head.x === food.x &&
+    head.y === food.y);
+}
+
 function collided() {
   let head = snake.body[0];
   if (head.x < 0 || head.x >= (canvas.width / scaleFactor)) {
@@ -212,4 +217,3 @@ function collided() {
 
 draw();
 update();
-setInterval(snakeLonger, 1000);
