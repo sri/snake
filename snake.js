@@ -75,11 +75,32 @@ function placeFood() {
   }
 }
 
+function highlightFood() {
+  if (!food) {
+    return;
+  }
+
+  let head = snake.body[0];
+  if ((head.dir === Dir.Left && head.x - 1 === food.x) ||
+      (head.dir === Dir.Right && head.x + 1 === food.x)) {
+    // Draw vertical marker
+    context.fillStyle = 'gray';
+    context.fillRect(food.x, 0, 1, canvas.height / scaleFactor);
+  }
+  if ((head.dir === Dir.Up && head.y - 1 === food.y) ||
+      (head.dir === Dir.Down && head.y + 1 == food.y)) {
+    // Draw horizontal marker
+    context.fillStyle = 'gray';
+    context.fillRect(0, food.y, canvas.width / scaleFactor, 1);
+  }
+}
+
 function draw() {
   context.fillStyle = "#000";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
   placeFood();
+  highlightFood();
   context.fillStyle = 'green';
   context.fillRect(food.x, food.y, 1, 1);
 
