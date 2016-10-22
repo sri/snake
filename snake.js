@@ -1,5 +1,3 @@
-// TODO:
-//  - check snake body collision
 var canvas = document.getElementById("board");
 var context = canvas.getContext("2d");
 var scaleFactor = 20;
