@@ -31,8 +31,6 @@ function snakeLonger() {
   let last = snake.body[snake.body.length - 1];
   let extra = {x: last.x, y: last.y, dir: last.dir};
 
-  console.log('last', JSON.stringify(last));
-
   switch (last.dir) {
   case Dir.Up:
     extra.y += 1;
@@ -49,8 +47,7 @@ function snakeLonger() {
   default:
     break;
   }
-  console.log('extra', JSON.stringify(extra));
-  firsttime = true;
+
   snake.body.push(extra);
 }
 
@@ -72,16 +69,9 @@ function placeFood() {
   }
 }
 
-let firsttime = true;
-
 function draw() {
   context.fillStyle = "#000";
   context.fillRect(0, 0, canvas.width, canvas.height);
-
-  if (firsttime) {
-    console.log('snake.body.len', snake.body.length);
-    firsttime = false;
-  }
 
   placeFood();
   context.fillStyle = 'green';
@@ -118,8 +108,6 @@ function moveHead() {
   default:
     break;
   }
-
-  console.log(JSON.stringify(snake.body));
 
   if (gotFood()) {
     food = null;
