@@ -1,14 +1,22 @@
 var canvas = document.getElementById("board");
 var context = canvas.getContext("2d");
 var scaleFactor = 20;
-context.scale(scaleFactor, scaleFactor);
 
 var pointsElt = null;
 var points = 0;
 
 var keyPressed = false;
 
-var Dir = {
+const Keys = {
+  Right: 39,
+  Left: 37,
+  Down: 40,
+  Up: 38,
+  Space: 32,
+};
+
+
+const Dir = {
   Up: 0,
   Down: 1,
   Left: 2,
@@ -110,9 +118,6 @@ function moveHead() {
   if (gotFood()) {
     food = null;
     points += 100;
-    if (!pointsElt) {
-      pointsElt = document.getElementById("points");
-    }
     pointsElt.innerHTML = points + "";
     snakeLonger();
   } else if (collided()) {
@@ -121,13 +126,6 @@ function moveHead() {
   }
 }
 
-const Keys = {
-  Right: 39,
-  Left: 37,
-  Down: 40,
-  Up: 38,
-  Space: 32,
-};
 
 document.addEventListener('keydown', (event) => {
   let head = snake.body[0];
@@ -213,5 +211,15 @@ function collided() {
   return false;
 }
 
-draw();
-update();
+
+function main() {
+  canvas = document.getElementById("board");
+  context = canvas.getContext("2d");
+  context.scale(scaleFactor, scaleFactor);
+
+  pointsElt = document.getElementById("points");
+
+  draw();
+  update();
+
+}
