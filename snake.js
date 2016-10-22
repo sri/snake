@@ -1,7 +1,5 @@
 // TODO:
 //  - check snake body collision
-//  - can't move in opposite dir: doing up, can't go down
-//    (only left or right)
 var canvas = document.getElementById("board");
 var context = canvas.getContext("2d");
 var scaleFactor = 20;
@@ -147,29 +145,43 @@ const Keys = {
 
 document.addEventListener('keydown', (event) => {
   let head = snake.body[0];
+  let nextDir = null;
+  let hasBody = snake.body.length > 1;
+
   switch (event.keyCode) {
   case Keys.Right:
-    keyPressed = true;
-    head.dir = Dir.Right;
+    if (head.dir === Dir.Left && hasBody) {
+      return;
+    }
+    nextDir = Dir.Right;
     break;
   case Keys.Left:
-    keyPressed = true;
-    head.dir = Dir.Left;
+    if (head.dir === Dir.Right && hasBody) {
+      return;
+    }
+    nextDir = Dir.Left;
     break;
   case Keys.Up:
-    keyPressed = true;
-    head.dir = Dir.Up;
+    if (head.dir === Dir.Down && hasBody) {
+      return;
+    }
+    nextDir = Dir.Up;
     break;
   case Keys.Down:
-    keyPressed = true;
-    head.dir = Dir.Down;
+    if (head.dir === Dir.Up && hasBody) {
+      return;
+    }
+    nextDir = Dir.Down;
     break;
   case Keys.Space:
     keyPressed = !keyPressed;
-    break;
+    return;
   default:
-    break;
+    return;
   }
+
+  keyPressed = true;
+  head.dir = nextDir;
 });
 
 let counter = 0;
