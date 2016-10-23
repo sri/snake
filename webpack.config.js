@@ -1,7 +1,7 @@
 module.exports = {
   entry: [
     "babel-polyfill",
-    "./src/snake.js"
+    "./src/Main.js"
   ],
   output: {
     path: "./html/bundle",

@@ -1,4 +1,7 @@
 import Keys from "./Keys.js";
+import Dir from "./Dir.js";
+import { randRange } from "./Random.js";
+import Snake from "./sSnake.js"
 
 var canvas = document.getElementById("board");
 var context = canvas.getContext("2d");
@@ -14,54 +17,7 @@ var slowMo = false;
 var keyPressed = false;
 var gameOver = false;
 
-
-
-const Dir = {
-  Up: 0,
-  Down: 1,
-  Left: 2,
-  Right: 3
-};
-
-var snake = {
-  body: [
-    {x: 0, y: 0, dir: Dir.Down},
-  ],
-};
-
-function snakeLonger() {
-  if (!keyPressed) {
-    return;
-  }
-
-  let last = snake.body[snake.body.length - 1];
-  let extra = {x: last.x, y: last.y, dir: last.dir};
-
-  switch (last.dir) {
-  case Dir.Up:
-    extra.y += 1;
-    break;
-  case Dir.Down:
-    extra.y -= 1;
-    break;
-  case Dir.Left:
-    extra.x += 1;
-    break;
-  case Dir.Right:
-    extra.x -= 1;
-    break;
-  default:
-    break;
-  }
-
-  snake.body.push(extra);
-  snakeSizeElt.innerHTML = snake.body.length + "";
-}
-
-function randRange(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
+var snake = new Snake();
 var food = null;
 
 function placeFood() {
@@ -107,10 +63,7 @@ function draw() {
   context.fillStyle = '#39aaaa';
   context.fillRect(food.x, food.y, 1, 1);
 
-  context.fillStyle = '#AA3939';
-  snake.body.forEach((elt, idx) => {
-    context.fillRect(elt.x, elt.y, 1, 1);
-  });
+  snake.redraw(context);
 }
 
 function moveHead() {
@@ -141,9 +94,9 @@ function moveHead() {
 
   if (gotFood()) {
     food = null;
-    points += 100 * snake.body.length;
+    points += 100 * snake.size();
     pointsElt.innerHTML = points + "";
-    snakeLonger();
+    snake.growLonger();
   } else if (collided()) {
     gameOver = true;
     gameStatusElt.innerHTML = "game over";
@@ -152,9 +105,9 @@ function moveHead() {
 
 
 document.addEventListener('keydown', (event) => {
-  let head = snake.body[0];
+  let head = snake.head();
   let nextDir = null;
-  let hasBody = snake.body.length > 1;
+  let hasBody = snake.hasBody();
 
   if (gameOver) {
     return;
@@ -246,7 +199,7 @@ function update(time = 0) {
 }
 
 function gotFood() {
-  let head = snake.body[0];
+  let head = snake.head();
   return (
     food &&
     head.x === food.x &&
@@ -254,7 +207,7 @@ function gotFood() {
 }
 
 function collided() {
-  let head = snake.body[0];
+  let head = snake.head();
   if (head.x < 0 || head.x >= (canvas.width / scaleFactor)) {
     return true;
   }

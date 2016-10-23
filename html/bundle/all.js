@@ -8819,6 +8819,16 @@
 
 	var _Keys2 = _interopRequireDefault(_Keys);
 
+	var _Dir = __webpack_require__(303);
+
+	var _Dir2 = _interopRequireDefault(_Dir);
+
+	var _Random = __webpack_require__(301);
+
+	var _sSnake = __webpack_require__(304);
+
+	var _sSnake2 = _interopRequireDefault(_sSnake);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var canvas = document.getElementById("board");
@@ -8835,50 +8845,7 @@
 	var keyPressed = false;
 	var gameOver = false;
 
-	var Dir = {
-	  Up: 0,
-	  Down: 1,
-	  Left: 2,
-	  Right: 3
-	};
-
-	var snake = {
-	  body: [{ x: 0, y: 0, dir: Dir.Down }]
-	};
-
-	function snakeLonger() {
-	  if (!keyPressed) {
-	    return;
-	  }
-
-	  var last = snake.body[snake.body.length - 1];
-	  var extra = { x: last.x, y: last.y, dir: last.dir };
-
-	  switch (last.dir) {
-	    case Dir.Up:
-	      extra.y += 1;
-	      break;
-	    case Dir.Down:
-	      extra.y -= 1;
-	      break;
-	    case Dir.Left:
-	      extra.x += 1;
-	      break;
-	    case Dir.Right:
-	      extra.x -= 1;
-	      break;
-	    default:
-	      break;
-	  }
-
-	  snake.body.push(extra);
-	  snakeSizeElt.innerHTML = snake.body.length + "";
-	}
-
-	function randRange(min, max) {
-	  return Math.floor(Math.random() * (max - min) + min);
-	}
-
+	var snake = new _sSnake2.default();
 	var food = null;
 
 	function placeFood() {
@@ -8887,8 +8854,8 @@
 	    var h = canvas.height / scaleFactor;
 
 	    food = {
-	      x: randRange(0, w),
-	      y: randRange(0, h)
+	      x: (0, _Random.randRange)(0, w),
+	      y: (0, _Random.randRange)(0, h)
 	    };
 	  }
 	}
@@ -8901,12 +8868,12 @@
 	  var markerColor = '#333';
 	  var head = snake.body[0];
 
-	  if (head.dir === Dir.Left && head.x - 1 === food.x || head.dir === Dir.Right && head.x + 1 === food.x) {
+	  if (head.dir === _Dir2.default.Left && head.x - 1 === food.x || head.dir === _Dir2.default.Right && head.x + 1 === food.x) {
 	    // Draw vertical marker
 	    context.fillStyle = markerColor;
 	    context.fillRect(food.x, 0, 1, canvas.height / scaleFactor);
 	  }
-	  if (head.dir === Dir.Up && head.y - 1 === food.y || head.dir === Dir.Down && head.y + 1 == food.y) {
+	  if (head.dir === _Dir2.default.Up && head.y - 1 === food.y || head.dir === _Dir2.default.Down && head.y + 1 == food.y) {
 	    // Draw horizontal marker
 	    context.fillStyle = markerColor;
 	    context.fillRect(0, food.y, canvas.width / scaleFactor, 1);
@@ -8922,10 +8889,7 @@
 	  context.fillStyle = '#39aaaa';
 	  context.fillRect(food.x, food.y, 1, 1);
 
-	  context.fillStyle = '#AA3939';
-	  snake.body.forEach(function (elt, idx) {
-	    context.fillRect(elt.x, elt.y, 1, 1);
-	  });
+	  snake.redraw(context);
 	}
 
 	function moveHead() {
@@ -8938,16 +8902,16 @@
 	  }
 
 	  switch (head.dir) {
-	    case Dir.Up:
+	    case _Dir2.default.Up:
 	      head.y -= 1;
 	      break;
-	    case Dir.Down:
+	    case _Dir2.default.Down:
 	      head.y += 1;
 	      break;
-	    case Dir.Left:
+	    case _Dir2.default.Left:
 	      head.x -= 1;
 	      break;
-	    case Dir.Right:
+	    case _Dir2.default.Right:
 	      head.x += 1;
 	      break;
 	    default:
@@ -8956,9 +8920,9 @@
 
 	  if (gotFood()) {
 	    food = null;
-	    points += 100 * snake.body.length;
+	    points += 100 * snake.size();
 	    pointsElt.innerHTML = points + "";
-	    snakeLonger();
+	    snake.growLonger();
 	  } else if (collided()) {
 	    gameOver = true;
 	    gameStatusElt.innerHTML = "game over";
@@ -8966,9 +8930,9 @@
 	}
 
 	document.addEventListener('keydown', function (event) {
-	  var head = snake.body[0];
+	  var head = snake.head();
 	  var nextDir = null;
-	  var hasBody = snake.body.length > 1;
+	  var hasBody = snake.hasBody();
 
 	  if (gameOver) {
 	    return;
@@ -8985,37 +8949,37 @@
 	      break;
 	    case _Keys2.default.Right:
 	      keyPressed = true;
-	      if (head.dir === Dir.Left && hasBody) {
+	      if (head.dir === _Dir2.default.Left && hasBody) {
 	        // do nothing
 	      } else {
-	        nextDir = Dir.Right;
+	        nextDir = _Dir2.default.Right;
 	      }
 	      break;
 
 	    case _Keys2.default.Left:
 	      keyPressed = true;
-	      if (head.dir === Dir.Right && hasBody) {
+	      if (head.dir === _Dir2.default.Right && hasBody) {
 	        // do nothing
 	      } else {
-	        nextDir = Dir.Left;
+	        nextDir = _Dir2.default.Left;
 	      }
 	      break;
 
 	    case _Keys2.default.Up:
 	      keyPressed = true;
-	      if (head.dir === Dir.Down && hasBody) {
+	      if (head.dir === _Dir2.default.Down && hasBody) {
 	        // do nothing
 	      } else {
-	        nextDir = Dir.Up;
+	        nextDir = _Dir2.default.Up;
 	      }
 	      break;
 
 	    case _Keys2.default.Down:
 	      keyPressed = true;
-	      if (head.dir === Dir.Up && hasBody) {
+	      if (head.dir === _Dir2.default.Up && hasBody) {
 	        // do nothing
 	      } else {
-	        nextDir = Dir.Down;
+	        nextDir = _Dir2.default.Down;
 	      }
 	      break;
 
@@ -9060,12 +9024,12 @@
 	}
 
 	function gotFood() {
-	  var head = snake.body[0];
+	  var head = snake.head();
 	  return food && head.x === food.x && head.y === food.y;
 	}
 
 	function collided() {
-	  var head = snake.body[0];
+	  var head = snake.head();
 	  if (head.x < 0 || head.x >= canvas.width / scaleFactor) {
 	    return true;
 	  }
@@ -9116,6 +9080,133 @@
 	};
 
 	exports.default = Keys;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	function randRange(min, max) {
+	  return Math.floor(Math.random() * (max - min) + min);
+	}
+
+	exports.randRange = randRange;
+
+/***/ },
+/* 302 */,
+/* 303 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var Dir = {
+	  Up: 0,
+	  Down: 1,
+	  Left: 2,
+	  Right: 3
+	};
+
+	exports.default = Dir;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _Dir = __webpack_require__(303);
+
+	var _Dir2 = _interopRequireDefault(_Dir);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Snake = function () {
+	  function Snake() {
+	    _classCallCheck(this, Snake);
+
+	    this.body = [{ x: 0, y: 0, dir: _Dir2.default.Down }];
+	  }
+
+	  _createClass(Snake, [{
+	    key: "redraw",
+	    value: function redraw(context) {
+	      context.fillStyle = '#AA3939';
+	      this.body.forEach(function (e, i) {
+	        context.fillRect(e.x, e.y, 1, 1);
+	      });
+	    }
+	  }, {
+	    key: "hasBody",
+	    value: function hasBody() {
+	      return this.body.length > 1;
+	    }
+	  }, {
+	    key: "growLonger",
+	    value: function growLonger() {
+	      var last = this.tail();
+	      var extra = { x: last.x, y: last.y, dir: last.dir };
+
+	      switch (last.dir) {
+	        case _Dir2.default.Up:
+	          extra.y += 1;
+	          break;
+	        case _Dir2.default.Down:
+	          extra.y -= 1;
+	          break;
+	        case _Dir2.default.Left:
+	          extra.x += 1;
+	          break;
+	        case _Dir2.default.Right:
+	          extra.x -= 1;
+	          break;
+	        default:
+	          break;
+	      }
+
+	      this.body.push(extra);
+	      // this.board.setSnakeSize(this.body.length)
+	    }
+	  }, {
+	    key: "head",
+	    value: function head() {
+	      return this.body[0];
+	    }
+	  }, {
+	    key: "tail",
+	    value: function tail() {
+	      return this.body[this.body.length - 1];
+	    }
+	  }, {
+	    key: "size",
+	    value: function size() {
+	      return this.body.length;
+	    }
+	  }, {
+	    key: "headDir",
+	    value: function headDir() {
+	      return this.head().dir;
+	    }
+	  }]);
+
+	  return Snake;
+	}();
+
+	exports.default = Snake;
 
 /***/ }
 /******/ ]);
