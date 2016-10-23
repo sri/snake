@@ -8974,8 +8974,6 @@
 	    return;
 	  }
 
-	  console.log(event.keyCode);
-
 	  switch (event.keyCode) {
 	    case _Keys2.default.Letter_s:
 	      slowMo = !slowMo;
@@ -9004,12 +9002,10 @@
 	      break;
 
 	    case _Keys2.default.Up:
-	      console.log('up pressed, cur dir', head.dir);
 	      keyPressed = true;
 	      if (head.dir === Dir.Down && hasBody) {
 	        // do nothing
 	      } else {
-	        console.log('yep');
 	        nextDir = Dir.Up;
 	      }
 	      break;
@@ -9031,7 +9027,6 @@
 	      return;
 	  }
 
-	  console.log('keyPressed', keyPressed);
 	  gameStatusElt.innerHTML = keyPressed ? "playing" : "paused";
 	  if (!keyPressed) {
 	    return;

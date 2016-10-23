@@ -160,7 +160,6 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
-  console.log(event.keyCode);
 
   switch (event.keyCode) {
     case Keys.Letter_s:
@@ -190,12 +189,10 @@ document.addEventListener('keydown', (event) => {
       break;
 
     case Keys.Up:
-      console.log('up pressed, cur dir', head.dir);
       keyPressed = true;
       if (head.dir === Dir.Down && hasBody) {
         // do nothing
       } else {
-        console.log('yep');
         nextDir = Dir.Up;
       }
       break;
@@ -217,7 +214,6 @@ document.addEventListener('keydown', (event) => {
       return;
   }
 
-  console.log('keyPressed', keyPressed);
   gameStatusElt.innerHTML = (keyPressed ? "playing" : "paused");
   if (!keyPressed) {
     return;
