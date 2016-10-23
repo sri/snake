@@ -1,12 +1,28 @@
 module.exports = {
-  entry: "./snake.js",
+  entry: [
+    "babel-polyfill",
+    "./src/snake.js"
+  ],
   output: {
-    path: __dirname,
-    filename: "bundle.js"
+    path: "./html/bundle",
+    filename: "all.js"
   },
   module: {
     loaders: [
-      { test: /\.css$/, loader: "style!css" }
+      {
+        loader: "style!css",
+        test: /\.css$/,
+      },
+      {
+        loader: "babel-loader",
+        include: [
+          "./src"
+        ],
+        test: /\.js$/,
+        query: {
+          presets: ["es2015"]
+        },
+      }
     ]
   }
 };
