@@ -3,8 +3,8 @@ Experiments with my first game in Javascript.
 
 ** Todo
 - Add tests
-- Use: yarn, babel (for ES6)
 - Run tests in CI
 - Use modules
+- Use: yarn, babel (for ES6)
 - Make it OO and remove global states
 - Multi-player mode
