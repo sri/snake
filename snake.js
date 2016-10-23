@@ -294,3 +294,5 @@ function main() {
   draw();
   update();
 }
+
+window.main = main;
