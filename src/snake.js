@@ -1,3 +1,5 @@
+import Keys from "./Keys.js";
+
 var canvas = document.getElementById("board");
 var context = canvas.getContext("2d");
 var scaleFactor = 20;
@@ -12,14 +14,6 @@ var slowMo = false;
 var keyPressed = false;
 var gameOver = false;
 
-const Keys = {
-  Right: 39,
-  Left: 37,
-  Down: 40,
-  Up: 38,
-  Space: 32,
-  Letter_s: 83,
-};
 
 
 const Dir = {

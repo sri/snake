@@ -10,19 +10,17 @@ module.exports = {
   module: {
     loaders: [
       {
-        loader: "style!css",
-        test: /\.css$/,
-      },
-      {
         loader: "babel-loader",
-        include: [
-          "./src"
-        ],
+        exclude: "./node_modules",
         test: /\.js$/,
         query: {
           presets: ["es2015"]
         },
-      }
+      },
+      {
+        loader: "style!css",
+        test: /\.css$/,
+      },
     ]
   }
 };
