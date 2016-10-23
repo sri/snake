@@ -2,12 +2,34 @@
 <html lang="en">
 <head>
   <title>s n a k e</title>
+  <style>
+   html, body {
+     height: 100%;
+     background-color: #000;
+     color: #999;
+   }
+
+   html {
+     display: table;
+     margin: auto;
+   }
+
+   body {
+     display: table-cell;
+     vertical-align: middle;
+   }
+   #board {
+     border: 2px solid #444;
+   }
+  </style>
 </head>
 <body onload="main()">
   <div>
-    Points: <span id="points">0</span>
+    POINTS: <span id="points">0</span> |
+    SNAKE SIZE: <span id="snakesize">1</span>
+    GAME STATUS: <span id="gamestatus">press arrow keys to start</span>
   </div>
-  <canvas id="board" width="700" height="700" />
+  <canvas id="board" width="700px" height="700px" />
   <script src="snake.js"></script>
 </body>
 </html>

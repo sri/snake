@@ -4,8 +4,12 @@ var scaleFactor = 20;
 
 var pointsElt = null;
 var points = 0;
+var snakeSizeElt = null;
+
+var gameStatusElt = null;
 
 var keyPressed = false;
+var gameOver = false;
 
 const Keys = {
   Right: 39,
@@ -55,6 +59,7 @@ function snakeLonger() {
   }
 
   snake.body.push(extra);
+  snakeSizeElt.innerHTML = snake.body.length + "";
 }
 
 function randRange(min, max) {
@@ -80,17 +85,19 @@ function highlightFood() {
     return;
   }
 
+  let markerColor = '#333';
   let head = snake.body[0];
+
   if ((head.dir === Dir.Left && head.x - 1 === food.x) ||
       (head.dir === Dir.Right && head.x + 1 === food.x)) {
     // Draw vertical marker
-    context.fillStyle = 'gray';
+    context.fillStyle = markerColor;
     context.fillRect(food.x, 0, 1, canvas.height / scaleFactor);
   }
   if ((head.dir === Dir.Up && head.y - 1 === food.y) ||
       (head.dir === Dir.Down && head.y + 1 == food.y)) {
     // Draw horizontal marker
-    context.fillStyle = 'gray';
+    context.fillStyle = markerColor;
     context.fillRect(0, food.y, canvas.width / scaleFactor, 1);
   }
 }
@@ -101,10 +108,10 @@ function draw() {
 
   placeFood();
   highlightFood();
-  context.fillStyle = 'green';
+  context.fillStyle = '#39aaaa';
   context.fillRect(food.x, food.y, 1, 1);
 
-  context.fillStyle = 'red';
+  context.fillStyle = '#AA3939';
   snake.body.forEach((elt, idx) => {
     context.fillRect(elt.x, elt.y, 1, 1);
   });
@@ -138,12 +145,12 @@ function moveHead() {
 
   if (gotFood()) {
     food = null;
-    points += 100;
+    points += 100 * snake.body.length;
     pointsElt.innerHTML = points + "";
     snakeLonger();
   } else if (collided()) {
-    keyPressed = false;
-    alert('game over');
+    gameOver = true;
+    gameStatusElt.innerHTML = "GAME OVER";
   }
 }
 
@@ -153,40 +160,69 @@ document.addEventListener('keydown', (event) => {
   let nextDir = null;
   let hasBody = snake.body.length > 1;
 
-  switch (event.keyCode) {
-  case Keys.Right:
-    if (head.dir === Dir.Left && hasBody) {
-      return;
-    }
-    nextDir = Dir.Right;
-    break;
-  case Keys.Left:
-    if (head.dir === Dir.Right && hasBody) {
-      return;
-    }
-    nextDir = Dir.Left;
-    break;
-  case Keys.Up:
-    if (head.dir === Dir.Down && hasBody) {
-      return;
-    }
-    nextDir = Dir.Up;
-    break;
-  case Keys.Down:
-    if (head.dir === Dir.Up && hasBody) {
-      return;
-    }
-    nextDir = Dir.Down;
-    break;
-  case Keys.Space:
-    keyPressed = !keyPressed;
-    return;
-  default:
+  if (gameOver) {
     return;
   }
 
-  keyPressed = true;
-  head.dir = nextDir;
+  console.log(event.keyCode);
+
+  switch (event.keyCode) {
+    case Keys.Right:
+      keyPressed = true;
+      if (head.dir === Dir.Left && hasBody) {
+        // do nothing
+      } else {
+        nextDir = Dir.Right;
+      }
+      break;
+
+    case Keys.Left:
+      keyPressed = true;
+      if (head.dir === Dir.Right && hasBody) {
+        // do nothing
+      } else {
+        nextDir = Dir.Left;
+      }
+      break;
+
+    case Keys.Up:
+      console.log('up pressed, cur dir', head.dir);
+      keyPressed = true;
+      if (head.dir === Dir.Down && hasBody) {
+        // do nothing
+      } else {
+        console.log('yep');
+        nextDir = Dir.Up;
+      }
+      break;
+
+  case Keys.Down:
+      keyPressed = true;
+      if (head.dir === Dir.Up && hasBody) {
+        // do nothing
+      } else {
+        nextDir = Dir.Down;
+      }
+      break;
+
+    case Keys.Space:
+      keyPressed = !keyPressed;
+      break;
+
+    default:
+      return;
+  }
+
+  console.log('keyPressed', keyPressed);
+  gameStatusElt.innerHTML = (keyPressed ? "playing" : "PAUSED");
+  if (!keyPressed) {
+    return;
+  }
+
+  if (nextDir !== null) {
+    head.dir = nextDir;
+  }
+
 });
 
 let counter = 0;
@@ -197,7 +233,7 @@ function update(time = 0) {
 
   counter += delta;
   if (counter > 100) {
-    if (keyPressed) {
+    if (keyPressed && !gameOver) {
       moveHead();
       draw();
     }
@@ -239,8 +275,10 @@ function main() {
   context.scale(scaleFactor, scaleFactor);
 
   pointsElt = document.getElementById("points");
+  snakeSizeElt = document.getElementById("snakesize");
+
+  gameStatusElt = document.getElementById("gamestatus");
 
   draw();
   update();
-
 }
