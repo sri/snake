@@ -1,7 +1,7 @@
 import Keys from "./Keys.js";
 import Dir from "./Dir.js";
 import { randRange } from "./Random.js";
-import Snake from "./sSnake.js"
+import Snake from "./Snake.js"
 
 var canvas = document.getElementById("board");
 var context = canvas.getContext("2d");
