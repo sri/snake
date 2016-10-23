@@ -8819,13 +8819,13 @@
 
 	var _Keys2 = _interopRequireDefault(_Keys);
 
-	var _Dir = __webpack_require__(303);
+	var _Dir = __webpack_require__(301);
 
 	var _Dir2 = _interopRequireDefault(_Dir);
 
-	var _Random = __webpack_require__(301);
+	var _Random = __webpack_require__(302);
 
-	var _Snake = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Snake.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _Snake = __webpack_require__(303);
 
 	var _Snake2 = _interopRequireDefault(_Snake);
 
@@ -9090,22 +9090,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	function randRange(min, max) {
-	  return Math.floor(Math.random() * (max - min) + min);
-	}
-
-	exports.randRange = randRange;
-
-/***/ },
-/* 302 */,
-/* 303 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
 	var Dir = {
 	  Up: 0,
 	  Down: 1,
@@ -9114,6 +9098,114 @@
 	};
 
 	exports.default = Dir;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	function randRange(min, max) {
+	  return Math.floor(Math.random() * (max - min) + min);
+	}
+
+	exports.randRange = randRange;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _Dir = __webpack_require__(301);
+
+	var _Dir2 = _interopRequireDefault(_Dir);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Snake = function () {
+	  function Snake() {
+	    _classCallCheck(this, Snake);
+
+	    this.body = [{ x: 0, y: 0, dir: _Dir2.default.Down }];
+	  }
+
+	  _createClass(Snake, [{
+	    key: "redraw",
+	    value: function redraw(context) {
+	      context.fillStyle = '#AA3939';
+	      this.body.forEach(function (e, i) {
+	        context.fillRect(e.x, e.y, 1, 1);
+	      });
+	    }
+	  }, {
+	    key: "hasBody",
+	    value: function hasBody() {
+	      return this.body.length > 1;
+	    }
+	  }, {
+	    key: "growLonger",
+	    value: function growLonger() {
+	      var last = this.tail();
+	      var extra = { x: last.x, y: last.y, dir: last.dir };
+
+	      switch (last.dir) {
+	        case _Dir2.default.Up:
+	          extra.y += 1;
+	          break;
+	        case _Dir2.default.Down:
+	          extra.y -= 1;
+	          break;
+	        case _Dir2.default.Left:
+	          extra.x += 1;
+	          break;
+	        case _Dir2.default.Right:
+	          extra.x -= 1;
+	          break;
+	        default:
+	          break;
+	      }
+
+	      this.body.push(extra);
+	      // this.board.setSnakeSize(this.body.length)
+	    }
+	  }, {
+	    key: "head",
+	    value: function head() {
+	      return this.body[0];
+	    }
+	  }, {
+	    key: "tail",
+	    value: function tail() {
+	      return this.body[this.body.length - 1];
+	    }
+	  }, {
+	    key: "size",
+	    value: function size() {
+	      return this.body.length;
+	    }
+	  }, {
+	    key: "headDir",
+	    value: function headDir() {
+	      return this.head().dir;
+	    }
+	  }]);
+
+	  return Snake;
+	}();
+
+	exports.default = Snake;
 
 /***/ }
 /******/ ]);
