@@ -8,6 +8,7 @@ var snakeSizeElt = null;
 
 var gameStatusElt = null;
 
+var slowMo = false;
 var keyPressed = false;
 var gameOver = false;
 
@@ -17,6 +18,7 @@ const Keys = {
   Down: 40,
   Up: 38,
   Space: 32,
+  Letter_s: 83,
 };
 
 
@@ -167,6 +169,14 @@ document.addEventListener('keydown', (event) => {
   console.log(event.keyCode);
 
   switch (event.keyCode) {
+    case Keys.Letter_s:
+      slowMo = !slowMo;
+      if (slowMo) {
+        counterEvery = 400;
+      } else {
+        counterEvery = 100;
+      }
+      break;
     case Keys.Right:
       keyPressed = true;
       if (head.dir === Dir.Left && hasBody) {
@@ -227,12 +237,14 @@ document.addEventListener('keydown', (event) => {
 
 let counter = 0;
 let lastTime = 0;
+let counterEvery = 100;
+
 function update(time = 0) {
   let delta = time - lastTime;
   lastTime = time;
 
   counter += delta;
-  if (counter > 100) {
+  if (counter > counterEvery) {
     if (keyPressed && !gameOver) {
       moveHead();
       draw();
