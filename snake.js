@@ -150,7 +150,7 @@ function moveHead() {
     snakeLonger();
   } else if (collided()) {
     gameOver = true;
-    gameStatusElt.innerHTML = "GAME OVER";
+    gameStatusElt.innerHTML = "game over";
   }
 }
 
@@ -214,7 +214,7 @@ document.addEventListener('keydown', (event) => {
   }
 
   console.log('keyPressed', keyPressed);
-  gameStatusElt.innerHTML = (keyPressed ? "playing" : "PAUSED");
+  gameStatusElt.innerHTML = (keyPressed ? "playing" : "paused");
   if (!keyPressed) {
     return;
   }
