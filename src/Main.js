@@ -3,8 +3,8 @@ import Dir from "./Dir.js";
 import Snake from "./Snake.js"
 import Food from "./Food.js"
 
-var canvas = document.getElementById("board");
-var context = canvas.getContext("2d");
+var canvas = null;
+var context = null;
 var scaleFactor = 20;
 
 var pointsElt = null;
