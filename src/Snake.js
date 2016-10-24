@@ -104,8 +104,4 @@ export default class Snake {
   size() {
     return this.body.length;
   }
-
-  headDir() {
-    return this.head().dir;
-  }
 }
