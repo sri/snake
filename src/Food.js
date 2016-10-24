@@ -17,7 +17,7 @@ export default class Food {
     this.y = randRange(0, height);
   }
 
-  highlightPath(context, snake, canvas, scaleFactor) {
+  highlightPath(context, snake, width, height) {
     let markerColor = '#333';
     let head = snake.head();
 
@@ -25,14 +25,14 @@ export default class Food {
         (head.dir === Dir.Right && head.x + 1 === this.x)) {
       // Draw vertical marker
       context.fillStyle = markerColor;
-      context.fillRect(this.x, 0, 1, canvas.height / scaleFactor);
+      context.fillRect(this.x, 0, 1, height);
     }
 
     if ((head.dir === Dir.Up && head.y - 1 === this.y) ||
         (head.dir === Dir.Down && head.y + 1 == this.y)) {
       // Draw horizontal marker
       context.fillStyle = markerColor;
-      context.fillRect(0, this.y, canvas.width / scaleFactor, 1);
+      context.fillRect(0, this.y, width, 1);
     }
   }
 }
