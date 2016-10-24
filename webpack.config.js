@@ -1,3 +1,5 @@
+var webpack = require("webpack");
+
 module.exports = {
   entry: [
     "babel-polyfill",
@@ -22,5 +24,8 @@ module.exports = {
         test: /\.css$/,
       },
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+  ]
 };
