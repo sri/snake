@@ -8880,6 +8880,20 @@
 	}
 
 	function draw() {
+	  if (keyPressed) {
+	    snake.moveHead();
+
+	    if (gotFood()) {
+	      food = null;
+	      points += 100 * snake.size();
+	      pointsElt.innerHTML = points + "";
+	      snake.growLonger();
+	    } else if (collided()) {
+	      gameOver = true;
+	      gameStatusElt.innerHTML = "game over";
+	    }
+	  }
+
 	  context.fillStyle = "#000";
 	  context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -8889,20 +8903,6 @@
 	  context.fillRect(food.x, food.y, 1, 1);
 
 	  snake.redraw(context);
-	}
-
-	function moveHead() {
-	  snake.moveHead();
-
-	  if (gotFood()) {
-	    food = null;
-	    points += 100 * snake.size();
-	    pointsElt.innerHTML = points + "";
-	    snake.growLonger();
-	  } else if (collided()) {
-	    gameOver = true;
-	    gameStatusElt.innerHTML = "game over";
-	  }
 	}
 
 	document.addEventListener('keydown', function (event) {
@@ -8990,7 +8990,6 @@
 	  counter += delta;
 	  if (counter > counterEvery) {
 	    if (keyPressed && !gameOver) {
-	      moveHead();
 	      draw();
 	    }
 	    counter = 0;
