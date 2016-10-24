@@ -67,7 +67,7 @@ export default class Board {
         this.points += 100 * this.snake.size();
         this.pointsEl.innerHTML = this.points + "";
         this.snake.growLonger();
-      } else if (this.collided()) {
+      } else if (this.snake.collided(this.width, this.height)) {
         this.gameOver = true;
         this.gameStatusEl.innerHTML = "game over";
       }
@@ -82,23 +82,6 @@ export default class Board {
     this.food.highlightPath(context, this.snake, this.width, this.height);
     this.food.redraw(context);
     this.snake.redraw(context);
-  }
-
-  collided() {
-    let head = this.snake.head();
-    if (head.x < 0 || head.x >= this.width) {
-      return true;
-    }
-    if (head.y < 0 || head.y >= this.height) {
-      return true;
-    }
-    for (let i = 1; i < this.snake.body.length; i++) {
-      let elt = this.snake.body[i];
-      if (elt.x === head.x && elt.y == head.y) {
-        return true;
-      }
-    }
-    return false;
   }
 
   gotFood() {

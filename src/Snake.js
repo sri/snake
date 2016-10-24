@@ -9,6 +9,26 @@ export default class Snake {
     ];
   }
 
+  collided(width, height) {
+    let head = this.head();
+
+    // Check for collision with boundary.
+    if (head.x < 0 || head.x >= width) {
+      return true;
+    } else if (head.y < 0 || head.y >= height) {
+      return true;
+    }
+
+    // Check for collision with itself.
+    for (let i = 1; i < this.body.length; i++) {
+      let elt = this.body[i];
+      if (elt.x === head.x && elt.y == head.y) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   redraw(context) {
     context.fillStyle = '#AA3939';
     this.body.forEach((e, i) => {
