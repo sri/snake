@@ -9,7 +9,6 @@ var scaleFactor = 20;
 
 var pointsElt = null;
 var points = 0;
-var snakeSizeElt = null;
 
 var gameStatusElt = null;
 
@@ -17,7 +16,7 @@ var slowMo = false;
 var keyPressed = false;
 var gameOver = false;
 
-var snake = new Snake();
+var snake = null;
 var food = null;
 
 function placeFood() {
@@ -230,9 +229,10 @@ function main() {
   context.scale(scaleFactor, scaleFactor);
 
   pointsElt = document.getElementById("points");
-  snakeSizeElt = document.getElementById("snakesize");
 
   gameStatusElt = document.getElementById("gamestatus");
+
+  snake = new Snake();
 
   draw();
   update();

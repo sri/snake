@@ -8837,7 +8837,6 @@
 
 	var pointsElt = null;
 	var points = 0;
-	var snakeSizeElt = null;
 
 	var gameStatusElt = null;
 
@@ -8845,7 +8844,7 @@
 	var keyPressed = false;
 	var gameOver = false;
 
-	var snake = new _Snake2.default();
+	var snake = null;
 	var food = null;
 
 	function placeFood() {
@@ -9051,9 +9050,10 @@
 	  context.scale(scaleFactor, scaleFactor);
 
 	  pointsElt = document.getElementById("points");
-	  snakeSizeElt = document.getElementById("snakesize");
 
 	  gameStatusElt = document.getElementById("gamestatus");
+
+	  snake = new _Snake2.default();
 
 	  draw();
 	  update();
@@ -9138,6 +9138,8 @@
 	  function Snake() {
 	    _classCallCheck(this, Snake);
 
+	    this.snakeSizeEl = document.getElementById("snakesize");
+
 	    this.body = [{ x: 0, y: 0, dir: _Dir2.default.Down }];
 	  }
 
@@ -9178,7 +9180,7 @@
 	      }
 
 	      this.body.push(extra);
-	      // this.board.setSnakeSize(this.body.length)
+	      this.snakeSizeEl.innerHTML = this.body.length + "";
 	    }
 	  }, {
 	    key: "head",

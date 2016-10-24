@@ -2,6 +2,8 @@ import Dir from "./Dir.js";
 
 export default class Snake {
   constructor() {
+    this.snakeSizeEl = document.getElementById("snakesize");
+
     this.body = [
       {x: 0, y: 0, dir: Dir.Down},
     ];
@@ -40,7 +42,7 @@ export default class Snake {
     }
 
     this.body.push(extra);
-    // this.board.setSnakeSize(this.body.length)
+    this.snakeSizeEl.innerHTML = this.body.length + "";
   }
 
   head() {
