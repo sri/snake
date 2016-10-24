@@ -66,30 +66,8 @@ function draw() {
 }
 
 function moveHead() {
-  let head = snake.body[0];
+  snake.moveHead();
 
-  for (let i = snake.body.length - 1; i > 0; i--) {
-    snake.body[i].x = snake.body[i - 1].x;
-    snake.body[i].y = snake.body[i - 1].y;
-    snake.body[i].dir = snake.body[i - 1].dir;
-  }
-
-  switch (head.dir) {
-  case Dir.Up:
-    head.y -= 1;
-    break;
-  case Dir.Down:
-    head.y += 1;
-    break;
-  case Dir.Left:
-    head.x -= 1;
-    break;
-  case Dir.Right:
-    head.x += 1;
-    break;
-  default:
-    break;
-  }
 
   if (gotFood()) {
     food = null;

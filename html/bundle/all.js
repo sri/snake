@@ -8892,30 +8892,7 @@
 	}
 
 	function moveHead() {
-	  var head = snake.body[0];
-
-	  for (var i = snake.body.length - 1; i > 0; i--) {
-	    snake.body[i].x = snake.body[i - 1].x;
-	    snake.body[i].y = snake.body[i - 1].y;
-	    snake.body[i].dir = snake.body[i - 1].dir;
-	  }
-
-	  switch (head.dir) {
-	    case _Dir2.default.Up:
-	      head.y -= 1;
-	      break;
-	    case _Dir2.default.Down:
-	      head.y += 1;
-	      break;
-	    case _Dir2.default.Left:
-	      head.x -= 1;
-	      break;
-	    case _Dir2.default.Right:
-	      head.x += 1;
-	      break;
-	    default:
-	      break;
-	  }
+	  snake.moveHead();
 
 	  if (gotFood()) {
 	    food = null;
@@ -9150,6 +9127,35 @@
 	      this.body.forEach(function (e, i) {
 	        context.fillRect(e.x, e.y, 1, 1);
 	      });
+	    }
+	  }, {
+	    key: "moveHead",
+	    value: function moveHead() {
+	      // Copy the location and direction of
+	      // the neighbor before cell.
+	      for (var i = this.body.length - 1; i > 0; i--) {
+	        this.body[i].x = this.body[i - 1].x;
+	        this.body[i].y = this.body[i - 1].y;
+	        this.body[i].dir = this.body[i - 1].dir;
+	      }
+
+	      var head = this.head();
+	      switch (head.dir) {
+	        case _Dir2.default.Up:
+	          head.y -= 1;
+	          break;
+	        case _Dir2.default.Down:
+	          head.y += 1;
+	          break;
+	        case _Dir2.default.Left:
+	          head.x -= 1;
+	          break;
+	        case _Dir2.default.Right:
+	          head.x += 1;
+	          break;
+	        default:
+	          break;
+	      }
 	    }
 	  }, {
 	    key: "hasBody",

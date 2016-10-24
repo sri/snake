@@ -16,6 +16,34 @@ export default class Snake {
     });
   }
 
+  moveHead() {
+    // Copy the location and direction of
+    // the neighbor before cell.
+    for (let i = this.body.length - 1; i > 0; i--) {
+      this.body[i].x = this.body[i - 1].x;
+      this.body[i].y = this.body[i - 1].y;
+      this.body[i].dir = this.body[i - 1].dir;
+    }
+
+    let head = this.head();
+    switch (head.dir) {
+      case Dir.Up:
+        head.y -= 1;
+        break;
+      case Dir.Down:
+        head.y += 1;
+        break;
+      case Dir.Left:
+        head.x -= 1;
+        break;
+      case Dir.Right:
+        head.x += 1;
+        break;
+      default:
+        break;
+    }
+  }
+
   hasBody() {
     return this.body.length > 1;
   }
