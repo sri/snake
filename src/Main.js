@@ -1,7 +1,7 @@
 import Keys from "./Keys.js";
 import Dir from "./Dir.js";
-import { randRange } from "./Random.js";
 import Snake from "./Snake.js"
+import Food from "./Food.js"
 
 var canvas = document.getElementById("board");
 var context = canvas.getContext("2d");
@@ -19,46 +19,18 @@ var gameOver = false;
 var snake = null;
 var food = null;
 
-function placeFood() {
-  if (food === null) {
-    let w = canvas.width / scaleFactor;
-    let h = canvas.height / scaleFactor;
-
-    food = {
-      x: randRange(0, w),
-      y: randRange(0, h),
-    };
-  }
-}
-
-function highlightFood() {
-  if (!food) {
+function draw() {
+  if (gameOver) {
     return;
   }
 
-  let markerColor = '#333';
-  let head = snake.body[0];
-
-  if ((head.dir === Dir.Left && head.x - 1 === food.x) ||
-      (head.dir === Dir.Right && head.x + 1 === food.x)) {
-    // Draw vertical marker
-    context.fillStyle = markerColor;
-    context.fillRect(food.x, 0, 1, canvas.height / scaleFactor);
-  }
-  if ((head.dir === Dir.Up && head.y - 1 === food.y) ||
-      (head.dir === Dir.Down && head.y + 1 == food.y)) {
-    // Draw horizontal marker
-    context.fillStyle = markerColor;
-    context.fillRect(0, food.y, canvas.width / scaleFactor, 1);
-  }
-}
-
-function draw() {
   if (keyPressed) {
     snake.moveHead();
 
     if (gotFood()) {
-      food = null;
+      food.place(
+        canvas.width / scaleFactor,
+        canvas.height / scaleFactor);
       points += 100 * snake.size();
       pointsElt.innerHTML = points + "";
       snake.growLonger();
@@ -71,11 +43,8 @@ function draw() {
   context.fillStyle = "#000";
   context.fillRect(0, 0, canvas.width, canvas.height);
 
-  placeFood();
-  highlightFood();
-  context.fillStyle = '#39aaaa';
-  context.fillRect(food.x, food.y, 1, 1);
-
+  food.highlightPath(context, snake, canvas, scaleFactor);
+  food.redraw(context);
   snake.redraw(context);
 }
 
@@ -88,7 +57,6 @@ document.addEventListener('keydown', (event) => {
   if (gameOver) {
     return;
   }
-
 
   switch (event.keyCode) {
     case Keys.Letter_s:
@@ -176,7 +144,6 @@ function update(time = 0) {
 function gotFood() {
   let head = snake.head();
   return (
-    food &&
     head.x === food.x &&
     head.y === food.y);
 }
@@ -208,6 +175,10 @@ function main() {
 
   gameStatusElt = document.getElementById("gamestatus");
 
+  food = new Food();
+  food.place(
+    canvas.width / scaleFactor,
+    canvas.height / scaleFactor);
   snake = new Snake();
 
   draw();
