@@ -3,14 +3,16 @@
 </p>
 <p align="center">
   <a href="https://circleci.com/gh/sri/snake">
-    <img alt="Circle CI status" src="https://circleci.com/gh/sri/snake.png"/>
+    <img alt="Circle CI status" src="https://circleci.com/gh/sri/snake.png?style=shield"/>
   </a>
 </p>
+<p align="center">
+  The classic game of Snake
+</p>
 
-## S N A K E
-The classic game
+---
 
-DEMO: https://sri.github.io/snake/html/
+**Demo:** https://sri.github.io/snake/html/
 
 ## Todos
 - [ ] Run tests in CI
