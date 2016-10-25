@@ -15,13 +15,13 @@
 **Demo:** https://sri.github.io/snake/html/
 
 ## Todos
-- [ ] Run tests in CI
-- [ ] Use: yarn, babel (for ES6)
 - [ ] Multi-player mode
 - [ ] Git sha: file name & output in console
 - [ ] Offline support
 - [ ] Mobile support
 - [ ] AWS Lambda: investigate
+- [x] Use: yarn, babel (for ES6)
+- [x] Run tests in CI
 - [x] Add tests
 - [x] Use modules
 - [x] Make it OO and remove global states
