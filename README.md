@@ -1,4 +1,11 @@
-https://circleci.com/gh/sri/snake.png
+<p align="center">
+  <h2>s n a k e</h2>
+</p>
+<p align="center">
+  <a href="https://circleci.com/gh/sri/snake">
+    <img alt="Circle CI status" src="https://circleci.com/gh/sri/snake.png"/>
+  </a>
+</p>
 
 ## S N A K E
 The classic game
