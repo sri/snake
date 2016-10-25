@@ -14,15 +14,6 @@
 
 **Demo:** https://sri.github.io/snake/html/
 
-## Built With
-* Node.js
-* ES6
-* Yarn
-* BabelJS
-* Jest (for testing)
-* Webpack
-* CircleCI
-
 ## Todos
 - [ ] Multi-player mode
 - [ ] Git sha: file name & output in console
@@ -34,3 +25,12 @@
 - [x] Add tests
 - [x] Use modules
 - [x] Make it OO and remove global states
+
+## Built With
+* Node.js
+* ES6
+* Yarn
+* BabelJS
+* Jest (for testing)
+* Webpack
+* CircleCI
