@@ -66,7 +66,7 @@ export default class World {
   checkShortestPathBonus() {
     if (this.snake.totalMovesSinceGrowingLonger === this.shortestPathCount) {
       this.bonusEl.innerHTML = "shortest path bonus!"
-      this.updatePoints(this.points * 10);
+      this.updatePoints(this.points * 2);
     } else if (this.shortestPathCount !== null) {
       let n = this.snake.totalMovesSinceGrowingLonger - this.shortestPathCount;
       this.bonusEl.innerHTML = `(missed shortest path by ${n} moves)`;
