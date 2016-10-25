@@ -15,6 +15,7 @@
 **Demo:** https://sri.github.io/snake/html/
 
 ## Todos
+- [ ] Add lint with a style guide
 - [ ] Multi-player mode
 - [ ] Git sha: file name & output in console
 - [ ] Offline support
