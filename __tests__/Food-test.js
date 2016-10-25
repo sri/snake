@@ -1,3 +1,5 @@
+window.UNIT_SIZE = 20;
+
 test('food gets placed correctly', () => {
   const Food = require('../src/Food.js').default;
 
