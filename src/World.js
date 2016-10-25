@@ -3,9 +3,9 @@ import Snake from "./Snake.js";
 import Keys from "./Keys.js";
 import Dir from "./Dir.js";
 
-export default class Board {
+export default class World {
   constructor() {
-    this.canvas = document.getElementById("board");
+    this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
     this.scaleFactor = 20;
     this.context.scale(this.scaleFactor,this.scaleFactor);
