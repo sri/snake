@@ -7,6 +7,16 @@ export default class Snake {
     this.body = [
       {x: 0, y: 0, dir: Dir.Down},
     ];
+
+    this.totalMovesSinceGrowingLonger = 0;
+  }
+
+  location() {
+    let head = this.head();
+    return {
+      x: head.x,
+      y: head.y
+    };
   }
 
   collided(width, height) {
@@ -62,6 +72,8 @@ export default class Snake {
       default:
         break;
     }
+
+    this.totalMovesSinceGrowingLonger += 1;
   }
 
   hasBody() {
@@ -89,6 +101,7 @@ export default class Snake {
         break;
     }
 
+    this.totalMovesSinceGrowingLonger = 0;
     this.body.push(extra);
     this.snakeSizeEl.innerHTML = this.body.length + "";
   }

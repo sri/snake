@@ -2,6 +2,7 @@ import Food from "./Food.js";
 import Snake from "./Snake.js";
 import Keys from "./Keys.js";
 import Dir from "./Dir.js";
+import { shortestPath } from "./Path.js";
 
 export default class World {
   constructor() {
@@ -15,6 +16,7 @@ export default class World {
 
     this.pointsEl = document.getElementById("points");
     this.points = 0;
+    this.bonusEl = document.getElementById("bonus");
 
     this.gameStatusEl = document.getElementById("gamestatus");
     this.gameOver = false;
@@ -29,6 +31,9 @@ export default class World {
     this.counter = 0;
     this.lastTime = 0;
     this.counterEvery = 100;
+
+    // No bonus for the 1st time!
+    this.shortestPathCount = null;
 
     document.addEventListener('keydown', (e) => this.onKeyPress(e));
   }
@@ -58,14 +63,33 @@ export default class World {
     requestAnimationFrame((time) => this.update(time));
   }
 
+  checkShortestPathBonus() {
+    if (this.snake.totalMovesSinceGrowingLonger === this.shortestPathCount) {
+      this.bonusEl.innerHTML = "shortest path bonus!"
+      this.updatePoints(this.points * 10);
+    } else if (this.shortestPathCount !== null) {
+      let n = this.snake.totalMovesSinceGrowingLonger - this.shortestPathCount;
+      this.bonusEl.innerHTML = `(missed shortest path by ${n} moves)`;
+    }
+  }
+
+  updatePoints(points) {
+    this.points = points;
+    this.pointsEl.innerHTML = this.points + "";
+  }
+
   draw() {
     if (this.keyPressed) {
       this.snake.moveHead();
 
       if (this.gotFood()) {
+        this.checkShortestPathBonus();
         this.food.place(this.width, this.height);
-        this.points += 100 * this.snake.size();
-        this.pointsEl.innerHTML = this.points + "";
+        this.shortestPathCount = shortestPath(
+          this.food.location(),
+          this.snake.location()
+        );
+        this.updatePoints(this.points + 100 * this.snake.size());
         this.snake.growLonger();
       } else if (this.snake.collided(this.width, this.height)) {
         this.gameOver = true;

@@ -7,6 +7,13 @@ export default class Food {
     this.y = null;
   }
 
+  location() {
+    return {
+      x: this.x,
+      y: this.y
+    };
+  }
+
   redraw(context) {
     context.fillStyle = "#39AAAA";
     context.fillRect(this.x, this.y, 1, 1);
