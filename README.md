@@ -1,3 +1,5 @@
+https://circleci.com/gh/sri/snake.png
+
 ## S N A K E
 The classic game
 
