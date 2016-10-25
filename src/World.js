@@ -87,7 +87,7 @@ export default class World {
         this.food.place(this.width, this.height);
         this.shortestPathCount = shortestPath(
           this.food.location(),
-          this.snake.location()
+          this.snake.head()
         );
         this.updatePoints(this.points + 100 * this.snake.size());
         this.snake.growLonger();

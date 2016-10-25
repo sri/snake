@@ -11,14 +11,6 @@ export default class Snake {
     this.totalMovesSinceGrowingLonger = 0;
   }
 
-  location() {
-    let head = this.head();
-    return {
-      x: head.x,
-      y: head.y
-    };
-  }
-
   collided(width, height) {
     let head = this.head();
 
