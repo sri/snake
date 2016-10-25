@@ -16,30 +16,34 @@ export default class Food {
 
   redraw(context) {
     context.fillStyle = "#39AAAA";
-    context.fillRect(this.x, this.y, 1, 1);
+    context.fillRect(this.x, this.y, UNIT_SIZE, UNIT_SIZE);
   }
 
   place(width, height) {
-    this.x = randRange(0, width);
-    this.y = randRange(0, height);
+    const x = randRange(0, width);
+    const y = randRange(0, height);
+
+    this.x = x - (x % UNIT_SIZE);
+    this.y = y - (y % UNIT_SIZE);
   }
 
   highlightPath(context, snake, width, height) {
     let markerColor = '#111';
     let head = snake.head();
 
-    if ((head.dir === Dir.Left && head.x - 1 === this.x) ||
-        (head.dir === Dir.Right && head.x + 1 === this.x)) {
+    if ((head.dir === Dir.Left && head.x - UNIT_SIZE === this.x) ||
+        (head.dir === Dir.Right && head.x + UNIT_SIZE === this.x)) {
       // Draw vertical marker
       context.fillStyle = markerColor;
-      context.fillRect(this.x, 0, 1, height);
+      context.fillRect(this.x, 0, UNIT_SIZE, height);
     }
 
-    if ((head.dir === Dir.Up && head.y - 1 === this.y) ||
-        (head.dir === Dir.Down && head.y + 1 == this.y)) {
+
+    if ((head.dir === Dir.Up && head.y - UNIT_SIZE === this.y) ||
+        (head.dir === Dir.Down && head.y + UNIT_SIZE == this.y)) {
       // Draw horizontal marker
       context.fillStyle = markerColor;
-      context.fillRect(0, this.y, width, 1);
+      context.fillRect(0, this.y, width, UNIT_SIZE);
     }
   }
 }

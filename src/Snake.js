@@ -3,12 +3,12 @@ import Dir from "./Dir.js";
 export default class Snake {
   constructor() {
     this.snakeSizeEl = document.getElementById("snakesize");
-
     this.body = [
       {x: 0, y: 0, dir: Dir.Down},
     ];
 
     this.totalMovesSinceGrowingLonger = 0;
+    this.prevLocations = [];
   }
 
   collided(width, height) {
@@ -32,13 +32,21 @@ export default class Snake {
   }
 
   redraw(context) {
-    context.fillStyle = '#AA3939';
+    context.fillStyle = '#aa3939';
     this.body.forEach((e, i) => {
-      context.fillRect(e.x, e.y, 1, 1);
+      context.fillRect(e.x, e.y, UNIT_SIZE, UNIT_SIZE);
+    });
+
+    context.strokeStyle = '#c37474';
+    this.prevLocations.forEach((e, i) => {
+      context.strokeRect(e.x, e.y, UNIT_SIZE, UNIT_SIZE);
     });
   }
 
   moveHead() {
+    let tail = this.tail();
+    this.prevLocations.push({x: tail.x, y: tail.y});
+
     // Copy the location and direction of
     // the neighbor before cell.
     for (let i = this.body.length - 1; i > 0; i--) {
@@ -50,22 +58,22 @@ export default class Snake {
     let head = this.head();
     switch (head.dir) {
       case Dir.Up:
-        head.y -= 1;
+        head.y -= UNIT_SIZE;
         break;
       case Dir.Down:
-        head.y += 1;
+        head.y += UNIT_SIZE;
         break;
       case Dir.Left:
-        head.x -= 1;
+        head.x -= UNIT_SIZE;
         break;
       case Dir.Right:
-        head.x += 1;
+        head.x += UNIT_SIZE;
         break;
       default:
         break;
     }
 
-    this.totalMovesSinceGrowingLonger += 1;
+    this.totalMovesSinceGrowingLonger += UNIT_SIZE;
   }
 
   hasBody() {
@@ -78,21 +86,22 @@ export default class Snake {
 
     switch (last.dir) {
       case Dir.Up:
-        extra.y += 1;
+        extra.y += UNIT_SIZE;
         break;
       case Dir.Down:
-        extra.y -= 1;
+        extra.y -= UNIT_SIZE;
         break;
       case Dir.Left:
-        extra.x += 1;
+        extra.x += UNIT_SIZE;
         break;
       case Dir.Right:
-        extra.x -= 1;
+        extra.x -= UNIT_SIZE;
         break;
       default:
         break;
     }
 
+    this.prevLocations = [];
     this.totalMovesSinceGrowingLonger = 0;
     this.body.push(extra);
     this.snakeSizeEl.innerHTML = this.body.length + "";

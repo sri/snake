@@ -8,7 +8,7 @@ export default class World {
   constructor() {
     this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
-    this.scaleFactor = 20;
+    this.scaleFactor = 1;
     this.context.scale(this.scaleFactor,this.scaleFactor);
 
     this.width = this.canvas.width / this.scaleFactor;
@@ -68,7 +68,7 @@ export default class World {
       this.bonusEl.innerHTML = "shortest path bonus!"
       this.updatePoints(this.points * 2);
     } else if (this.shortestPathCount !== null) {
-      let n = this.snake.totalMovesSinceGrowingLonger - this.shortestPathCount;
+      let n = (this.snake.totalMovesSinceGrowingLonger - this.shortestPathCount) / UNIT_SIZE;
       this.bonusEl.innerHTML = `(missed shortest path by ${n} moves)`;
     }
   }
