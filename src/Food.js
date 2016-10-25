@@ -25,7 +25,7 @@ export default class Food {
   }
 
   highlightPath(context, snake, width, height) {
-    let markerColor = '#333';
+    let markerColor = '#111';
     let head = snake.head();
 
     if ((head.dir === Dir.Left && head.x - 1 === this.x) ||
