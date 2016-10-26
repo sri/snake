@@ -8,6 +8,7 @@ export default class Snake {
     ];
 
     // debugging
+    console.log("adding window.snakeBody");
     window.snakeBody = () => this.body;
 
     this.totalMovesSinceGrowingLonger = 0;
