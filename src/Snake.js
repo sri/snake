@@ -7,6 +7,9 @@ export default class Snake {
       {x: 0, y: 0, dir: Dir.Down},
     ];
 
+    // debugging
+    window.snakeBody = () => this.body;
+
     this.totalMovesSinceGrowingLonger = 0;
     this.prevLocations = [];
   }
