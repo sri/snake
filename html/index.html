@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
   <title>s n a k e</title>
+  <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">
+
   <style>
    html, body {
      height: 100%;
      background-color: #000;
      color: #999;
+     font-family: 'Kalam', cursive;
    }
 
    html {
@@ -28,16 +31,15 @@
      background-color: #444;
      color: #999;
      padding-left: 0 2px;
-     letter-spacing: 2px;
    }
   </style>
 </head>
 <body onload="main()">
   <div id="status">
-    <span class="label">POINTS:</span> <span id="points">0</span>
-    <span class="label">SNAKE SIZE:</span> <span id="snakesize">1</span>
-    <span class="label">GAME STATUS:</span> <span id="gamestatus" style="color:#3972aa;">press arrow keys to start</span>
-    <span class="label">BONUS:</span> <span id="bonus" style="color:#aa7139;">none</span>
+    <span class="label">Points:</span> <span id="points">0</span>
+    <span class="label">Snake Size:</span> <span id="snakesize">1</span>
+    <span class="label">Game Status:</span> <span id="gamestatus" style="color:#3972aa;">press arrow keys to start</span>
+    <span class="label">Bonus:</span> <span id="bonus" style="color:#aa7139;">none</span>
   </div>
   <canvas id="canvas" width="700px" height="700px" />
   <script src="bundle/all.js"></script>
