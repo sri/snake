@@ -14,6 +14,14 @@
 
 **Demo:** https://sri.github.io/snake/html/
 
+## Screenshot
+
+![Screenshot of S N A K E]
+(https://raw.githubusercontent.com/sri/snake/master/screenshot.png)
+
+## Browsers
+Successfully played on the latest versions of Chrome, Firefox, and Safari.
+
 ## Todos
 - [ ] Add lint with a style guide
 - [ ] Multi-player mode
