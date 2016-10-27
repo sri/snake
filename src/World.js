@@ -127,11 +127,7 @@ export default class World {
     switch (event.keyCode) {
       case Keys.Letter_s:
         this.slowMo = !this.slowMo;
-        if (this.slowMo) {
-          this.counterEvery = 400;
-        } else {
-          this.counterEvery = 100;
-        }
+        this.counterEvery = this.slowMo ? 400 : 100;
         break;
 
       case Keys.Right:
