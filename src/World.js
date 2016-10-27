@@ -131,6 +131,7 @@ export default class World {
         break;
 
       case Keys.Right:
+        console.log('pressed right');
         this.keyPressed = true;
         if (head.dir === Dir.Left && hasBody) {
           // do nothing
@@ -140,6 +141,7 @@ export default class World {
         break;
 
       case Keys.Left:
+        console.log('pressed left');
         this.keyPressed = true;
         if (head.dir === Dir.Right && hasBody) {
           // do nothing
@@ -149,6 +151,7 @@ export default class World {
         break;
 
       case Keys.Up:
+        console.log('pressed up');
         this.keyPressed = true;
         if (head.dir === Dir.Down && hasBody) {
           // do nothing
@@ -158,6 +161,7 @@ export default class World {
         break;
 
       case Keys.Down:
+        console.log('pressed down');
         this.keyPressed = true;
         if (head.dir === Dir.Up && hasBody) {
           // do nothing
