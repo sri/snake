@@ -111,6 +111,16 @@ export default class Snake {
     this.snakeSizeEl.innerHTML = this.body.length + "";
   }
 
+  changeDir(newDir) {
+    let head = this.head();
+
+    if (Dir.isOpposite(newDir, head.dir) && this.hasBody()) {
+      return;
+    }
+
+    head.dir = newDir;
+  }
+
   head() {
     return this.body[0];
   }

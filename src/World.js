@@ -116,13 +116,11 @@ export default class World {
   }
 
   onKeyPress(event) {
-    let head = this.snake.head();
-    let nextDir = null;
-    let hasBody = this.snake.hasBody();
-
     if (this.gameOver) {
       return;
     }
+
+    let dir = null;
 
     switch (event.keyCode) {
       case Keys.Letter_s:
@@ -131,43 +129,23 @@ export default class World {
         break;
 
       case Keys.Right:
-        console.log('pressed right');
         this.keyPressed = true;
-        if (head.dir === Dir.Left && hasBody) {
-          // do nothing
-        } else {
-          nextDir = Dir.Right;
-        }
+        dir = Dir.Right;
         break;
 
       case Keys.Left:
-        console.log('pressed left');
         this.keyPressed = true;
-        if (head.dir === Dir.Right && hasBody) {
-          // do nothing
-        } else {
-          nextDir = Dir.Left;
-        }
+        dir = Dir.Left;
         break;
 
       case Keys.Up:
-        console.log('pressed up');
         this.keyPressed = true;
-        if (head.dir === Dir.Down && hasBody) {
-          // do nothing
-        } else {
-          nextDir = Dir.Up;
-        }
+        dir = Dir.Up;
         break;
 
       case Keys.Down:
-        console.log('pressed down');
         this.keyPressed = true;
-        if (head.dir === Dir.Up && hasBody) {
-          // do nothing
-        } else {
-          nextDir = Dir.Down;
-        }
+        dir = Dir.Down;
         break;
 
       case Keys.Space:
@@ -180,12 +158,14 @@ export default class World {
 
     this.gameStatusEl.innerHTML = (
       this.keyPressed ? "playing" : "paused");
+
     if (!this.keyPressed) {
       return;
     }
 
-    if (nextDir !== null) {
-      head.dir = nextDir;
+    if (dir !== null) {
+      this.snake.changeDir(dir)
     }
+
   }
 }
