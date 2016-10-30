@@ -5,15 +5,19 @@ const Dir = {
   Right: 3,
 
   isOpposite(a, b) {
-    return (
-      (a === Dir.Left && b === Dir.Right) ||
-      (a === Dir.Right && b === Dir.Left) ||
-      (a === Dir.Up && b === Dir.Down) ||
-      (a === Dir.Down && b === Dir.Up)
-    );
+    switch (a) {
+      case Dir.Left:
+        return b === Dir.Right;
+      case Dir.Right:
+        return b === Dir.Left;
+      case Dir.Up:
+        return b === Dir.Down;
+      case Dir.Down:
+        return b === Dir.Up;
+      default:
+        return false;
+    }
   }
 };
-
-
 
 export default Dir;
